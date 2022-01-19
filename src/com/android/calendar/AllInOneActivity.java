@@ -257,6 +257,7 @@ public class AllInOneActivity extends AbstractCalendarActivity implements EventH
         setTheme(R.style.CalendarTheme_WithActionBarWallpaper);
         super.onCreate(icicle);
         dynamicTheme.onCreate(this);
+        Log.e("Essi","*****************onCreate***********************************");
 
         // This needs to be created before setContentView
         mController = CalendarController.getInstance(this);
@@ -347,7 +348,9 @@ public class AllInOneActivity extends AbstractCalendarActivity implements EventH
 
         mFab = binding.floatingActionButton;
 
+        Log.e("Essi","---------------------------------------------");
         if (mIsTabletConfig) {
+
             mDateRange = binding.include.dateBar;
             mWeekTextView = binding.include.weekNum;
         } else {
@@ -939,7 +942,15 @@ public class AllInOneActivity extends AbstractCalendarActivity implements EventH
                 }
                 break;
             case R.id.month_menu_item:
+                Log.e("Essi","Before IF R.id.month_menu_item Clicked");
+
                 if (mCurrentView != ViewType.MONTH) {
+                    Log.e("Essi","After IF R.id.month_menu_item Clicked");
+                    Log.e("Essi","mController  ==> "+mController.toString());
+                    Log.e("Essi","mController  ==> "+mController.getEventId());
+                    Log.e("Essi","mController  ==> "+ EventType.GO_TO);
+                    Log.e("Essi","mController  ==> "+ ViewType.MONTH);
+
                     mController.sendEvent(this, EventType.GO_TO, null, null, -1, ViewType.MONTH);
                 }
                 break;
@@ -1045,7 +1056,9 @@ public class AllInOneActivity extends AbstractCalendarActivity implements EventH
                 }
                 break;
             case ViewType.MONTH:
+                Log.e("Essi","ViewType.MONTH ===>  MonthByWeekFragment");
                 mNavigationView.getMenu().findItem(R.id.month_menu_item).setChecked(true);
+                Log.e("Essi","timeMillis==> "+timeMillis);
                 frag = new MonthByWeekFragment(timeMillis, false);
                 if (mShowAgendaWithMonth) {
                     secFrag = new AgendaFragment(timeMillis, false);
@@ -1176,6 +1189,7 @@ public class AllInOneActivity extends AbstractCalendarActivity implements EventH
                 && mWeekTextView != null) {
             String weekString = getResources().getQuantityString(R.plurals.weekN, mWeekNum,
                     mWeekNum);
+            Log.e("Essi","weekString"+weekString);
             mWeekTextView.setText(weekString);
             mWeekTextView.setVisibility(View.VISIBLE);
         } else if (visibleMillisSinceEpoch != -1 && mWeekTextView != null

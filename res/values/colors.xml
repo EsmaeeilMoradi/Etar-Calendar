@@ -89,7 +89,7 @@
     <color name="month_event_extra_other_color">#4C999999</color>
     <color name="month_saturday">#80333333</color>
     <color name="month_sunday">#80333333</color>
-    <color name="month_grid_lines">#ffdedede</color>
+    <color name="month_grid_lines">#FF0000</color>
     <color name="month_other_month_day_number">#ff939497</color>
 
     <!-- Background Color of the selected week for the mini calendar on the tablet size -->

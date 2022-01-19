@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.CalendarContract;
 import android.provider.CalendarContract.Attendees;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Instances;
@@ -160,6 +161,7 @@ public class MonthByWeekFragment extends SimpleDayPickerFragment implements
 
     public MonthByWeekFragment(long initialTime, boolean isMiniMonth) {
         super(initialTime);
+        Log.e("Essi","MonthByWeekFragment");
         mIsMiniMonth = isMiniMonth;
     }
 
@@ -269,14 +271,46 @@ public class MonthByWeekFragment extends SimpleDayPickerFragment implements
         }
 
         HashMap<String, Integer> weekParams = new HashMap<String, Integer>();
+
+        Log.e("Essi","weekParams" +weekParams.toString());
+
+
         weekParams.put(SimpleWeeksAdapter.WEEK_PARAMS_NUM_WEEKS, mNumWeeks);
+        Log.e("Essi","SimpleWeeksAdapter.WEEK_PARAMS_NUM_WEEKS" +SimpleWeeksAdapter.WEEK_PARAMS_NUM_WEEKS);
+        Log.e("Essi"," mNumWeeks" + mNumWeeks);
+
+
         weekParams.put(SimpleWeeksAdapter.WEEK_PARAMS_SHOW_WEEK, mShowWeekNumber ? 1 : 0);
+        Log.e("Essi","SimpleWeeksAdapter.WEEK_PARAMS_SHOW_WEEK" +SimpleWeeksAdapter.WEEK_PARAMS_SHOW_WEEK);
+        Log.e("Essi","mShowWeekNumber" +mShowWeekNumber);
+
+
+
         weekParams.put(SimpleWeeksAdapter.WEEK_PARAMS_WEEK_START, mFirstDayOfWeek);
+        Log.e("Essi","SimpleWeeksAdapter.WEEK_PARAMS_WEEK_START" +SimpleWeeksAdapter.WEEK_PARAMS_WEEK_START);
+        Log.e("Essi"," mFirstDayOfWeek" + mFirstDayOfWeek);
+
+
         weekParams.put(MonthByWeekAdapter.WEEK_PARAMS_IS_MINI, mIsMiniMonth ? 1 : 0);
+        Log.e("Essi","MonthByWeekAdapter.WEEK_PARAMS_IS_MINI" +MonthByWeekAdapter.WEEK_PARAMS_IS_MINI);
+        Log.e("Essi","mIsMiniMonth" +mIsMiniMonth);
+
+
+
         weekParams.put(SimpleWeeksAdapter.WEEK_PARAMS_JULIAN_DAY,
                 Time.getJulianDay(mSelectedDay.toMillis(true), mSelectedDay.gmtoff));
+
+        Log.e("Essi","SimpleWeeksAdapter.WEEK_PARAMS_JULIAN_DAY" +SimpleWeeksAdapter.WEEK_PARAMS_JULIAN_DAY);
+        Log.e("Essi", " mSelectedDay.gmtoff" + mSelectedDay.gmtoff);
+
+
         weekParams.put(SimpleWeeksAdapter.WEEK_PARAMS_DAYS_PER_WEEK, mDaysPerWeek);
         if (mAdapter == null) {
+            Log.e("Essi","mAdapter"+mAdapter);
+            Log.e("Essi","mAdapter"+mAdapter);
+            Log.e("Essi","weekParams"+weekParams);
+            Log.e("Essi"," mEventDialogHandler"+ mEventDialogHandler);
+
             mAdapter = new MonthByWeekAdapter(getActivity(), weekParams, mEventDialogHandler);
             mAdapter.registerDataSetObserver(mObserver);
         } else {
@@ -289,10 +323,14 @@ public class MonthByWeekFragment extends SimpleDayPickerFragment implements
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v;
+        Log.e("Essi","mIsMiniMonth===>"+mIsMiniMonth);
         if (mIsMiniMonth) {
             v = inflater.inflate(R.layout.month_by_week, container, false);
+            Log.e("Essi","v==>"+v.toString());
         } else {
             v = inflater.inflate(R.layout.full_month_by_week, container, false);
+            Log.e("Essi","v==>"+v.toString());
+
         }
         mDayNamesHeader = (ViewGroup) v.findViewById(R.id.day_names);
         return v;
@@ -398,8 +436,43 @@ public class MonthByWeekFragment extends SimpleDayPickerFragment implements
                 return;
             }
             ArrayList<Event> events = new ArrayList<Event>();
+            Event e = new Event();
+
+            e.id = 8;
+            e.title = "تست امروز فاطمه ";
+            e.color = -3379968;
+            e.location = "Iran";
+            e.allDay = false;
+            e.startDay = 2459579;
+            e.endDay = 2459579;
+            e.startTime = 1230;
+            e.endTime = 1395;
+            e.startMillis = 0;
+            e.endMillis = 0;
+            e.hasAlarm = false;
+            e.isRepeating = false;
+            e.status = 0;
+            e.selfAttendeeStatus =0;
+
+            events.add(e);
+
             Event.buildEventsFromCursor(
                     events, data, mContext, mFirstLoadedJulianDay, mLastLoadedJulianDay);
+//            Log.e("Essi5","data===>"+data.getString(-1));
+            Log.e("Essi5","events ID===>  "+events.get(1).id);
+            Log.e("Essi5","events title===>  "+events.get(2).title);
+            Log.e("Essi5","events color===>  "+events.get(1).color);
+            Log.e("Essi5","events location===>  "+events.get(1).location);
+            Log.e("Essi5","events allDay===>  "+events.get(1).allDay);
+            Log.e("Essi5","events startDay===>  "+events.get(0).startDay);
+            Log.e("Essi5","events endDay===>  "+events.get(0).endDay);
+            Log.e("Essi5","events startTime===>  "+events.get(0).startTime);
+            Log.e("Essi5","events endTime===>  "+events.get(0).endTime);
+            Log.e("Essi5","events startMillis===>  "+events.get(0).startMillis);
+            Log.e("Essi5","events endMillis===>  "+events.get(0).endMillis);
+            Log.e("Essi5","events hasAlarm===>  "+events.get(0).hasAlarm);
+            Log.e("Essi5","events status===>  "+events.get(0).status);
+            Log.e("Essi5","events selfAttendeeStatus===>  "+events.get(0).selfAttendeeStatus);
             ((MonthByWeekAdapter) mAdapter).setEvents(mFirstLoadedJulianDay,
                     mLastLoadedJulianDay - mFirstLoadedJulianDay + 1, events);
         }

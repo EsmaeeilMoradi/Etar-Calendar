@@ -164,13 +164,45 @@ public class MonthByWeekAdapter extends SimpleWeeksAdapter {
             }
             return;
         }
+        Log.e("Essi4","events===>"+events.get(2).title);
+        Log.e("Essi4","events===>"+events.get(0).organizer);
+        Log.e("Essi4","events===>"+events.get(0).allDay);
+        Log.e("Essi4","events===>"+events.get(0).endDay);
+        Log.e("Essi4","events===>"+events.get(0).color);
+        Log.e("Essi4","events===>"+events.get(0).bottom);
+        Log.e("Essi4","events===>"+events.get(0).endMillis);
+        Log.e("Essi4","events===>"+events.get(0).endTime);
+        Log.e("Essi4","events===>"+events.get(0).guestsCanModify);
+        Log.e("Essi4","events===>"+events.get(0).hasAlarm);
+        Log.e("Essi4","events===>"+events.get(0).id);
+        Log.e("Essi4","events===>"+events.get(0).isRepeating);
+        Log.e("Essi4","events===>"+events.get(0).left);
+        Log.e("Essi4","events===>"+events.get(0).location);
+        Log.e("Essi4","events===>"+events.get(0).nextDown);
+        Log.e("Essi4","events===>"+events.get(0).nextLeft);
+        Log.e("Essi4","events===>"+events.get(0).nextRight);
+        Log.e("Essi4","events===>"+events.get(0).nextUp);
+        Log.e("Essi4","events===>"+events.get(0).right);
+        Log.e("Essi4","events===>"+events.get(0).selfAttendeeStatus);
+        Log.e("Essi4","events===>"+events.get(0).startDay);
+        Log.e("Essi4","events===>"+events.get(0).startMillis);
+        Log.e("Essi4","events===>"+events.get(0).startTime);
+        Log.e("Essi4","events===>"+events.get(0).status);
+        Log.e("Essi4","events===>"+events.get(0).top);
+        Log.e("Essi4","events===>"+events.get(0).getTitleAndLocation());
+        Log.e("Essi4","events===>"+events.get(0).toString());
+        Log.e("Essi4","events===>"+events.get(0).drawAsAllday());
+        Log.e("Essi4","firstJulianDay===>"+firstJulianDay);
+        Log.e("Essi4","numDays===>"+numDays);
         mEvents = events;
         mFirstJulianDay = firstJulianDay;
         mQueryDays = numDays;
         // Create a new list, this is necessary since the weeks are referencing
         // pieces of the old list
         ArrayList<ArrayList<Event>> eventDayList = new ArrayList<ArrayList<Event>>();
+        ArrayList<ArrayList<Event>> eventDayList2 = new ArrayList<ArrayList<Event>>();
         for (int i = 0; i < numDays; i++) {
+            Log.e("Essi","Event.EVENT_PROJECTION.toString()"+eventDayList.size());
             eventDayList.add(new ArrayList<Event>());
         }
 
@@ -178,6 +210,7 @@ public class MonthByWeekAdapter extends SimpleWeeksAdapter {
             if(Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "No events. Returning early--go schedule something fun.");
             }
+            Log.e("Essi10","eventDayList.toString()===> "+eventDayList);
             mEventDayList = eventDayList;
             refresh();
             return;
@@ -208,6 +241,8 @@ public class MonthByWeekAdapter extends SimpleWeeksAdapter {
         if(Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "Processed " + events.size() + " events.");
         }
+        Log.e("Essi","eventDayList"+eventDayList);
+        Log.e("Essi","eventDayList"+events);
         mEventDayList = eventDayList;
         refresh();
     }
@@ -299,6 +334,15 @@ public class MonthByWeekAdapter extends SimpleWeeksAdapter {
             v.setEvents(null, null);
             return;
         }
+        Log.e("Essi","mEventDayList"+mEventDayList);
+        Log.e("Essi","mEventDayList.subList(start, end)"+mEventDayList.subList(start, end));
+        Log.e("Essi","mEvents"+mEvents.clone().toString());
+
+
+        Log.e("Essi3","start"+start);
+        Log.e("Essi3","end"+end);
+        Log.e("Essi3","mEventDayList==>"+mEventDayList.subList(start, end));
+
         v.setEvents(mEventDayList.subList(start, end), mEvents);
     }
 

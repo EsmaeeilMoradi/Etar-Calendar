@@ -111,13 +111,13 @@
     <string name="agenda_view">"Agenda"</string>
     <!-- This is a label on a menu item. Pressing this menu item displays the
          Day view. -->
-    <string name="day_view">"Day"</string>
+    <string name="day_view">"Daytest"</string>
     <!-- This is a label on a menu item. Pressing this menu item displays the
          Week view. -->
     <string name="week_view">"Week"</string>
     <!-- This is a label on a menu item. Pressing this menu item displays the
          Month view. -->
-    <string name="month_view">"Month"</string>
+    <string name="month_view">"MonthTest"</string>
     <!-- This is a label on a menu item. Pressing this menu item displays the
          details of an event. -->
     <string name="event_view">"View event"</string>

@@ -76,7 +76,7 @@ public class MonthWeekEventsView extends SimpleWeekView {
     private static int mTextSizeMonthNumber = 28;
     private static int mTextSizeLunar = 10;
     private static int mTextSizeEvent = 12;
-    private static int mTextSizeEventTitle = 14;
+    private static int mTextSizeEventTitle = 100;
     private static int mTextSizeWeekNum = 9;
     private static int mDnaMargin = 4;
     private static int mDnaAllDayHeight = 4;
@@ -174,6 +174,8 @@ public class MonthWeekEventsView extends SimpleWeekView {
     // divided up by day for generating the large month version and the full
     // arraylist sorted by start time to generate the dna version.
     public void setEvents(List<ArrayList<Event>> sortedEvents, ArrayList<Event> unsortedEvents) {
+        Log.e("Essi2","sortedEvents==>"+sortedEvents);
+        Log.e("Essi2","unsortedEvents==>"+unsortedEvents);
         setEvents(sortedEvents);
         // The mMinWeekWidth is a hack to prevent the view from trying to
         // generate dna bits before its width has been fixed.
@@ -217,8 +219,16 @@ public class MonthWeekEventsView extends SimpleWeekView {
     }
 
     public void setEvents(List<ArrayList<Event>> sortedEvents) {
+        Log.e("Essi","Event===>"+Event.EVENT_PROJECTION);
+        Log.e("Essi","sortedEvents===>"+sortedEvents);
+        Log.e("Essi","mNumDays===>"+mNumDays);
         mEvents = sortedEvents;
         if (sortedEvents == null) {
+            Log.e("Essi","sortedEvents===>null");
+            Log.e("Essi","Event===>"+Event.EVENT_PROJECTION.toString());
+            Log.e("Essi","Event===>"+Event.EVENT_PROJECTION.length);
+
+
             return;
         }
         if (sortedEvents.size() != mNumDays) {
