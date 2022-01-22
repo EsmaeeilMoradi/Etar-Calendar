@@ -795,5 +795,6 @@
     <string name="preferences_menu_about">About Etar</string>
 
     <string name="offline_account_name">Offline Calendar</string>
+    <string name="preferences_switch_hijriـshamsi_title">Hijri Shamsi</string>
 
 </resources>

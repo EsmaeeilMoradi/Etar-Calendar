@@ -715,6 +715,15 @@ public class Utils {
     }
 
     /**
+     * @return true when Hijri Shamsi should be shown.
+     */
+    public static boolean getSwitchHijriShamsi(Context context) {
+        final SharedPreferences prefs = GeneralPreferences.Companion.getSharedPreferences(context);
+        return prefs.getBoolean(
+                GeneralPreferences.KEY_SWITCH_SHAMSI_CALENDAR, GeneralPreferences.DEFAULT_SWITCH_SHAMSI_CALENDAR);
+    }
+
+    /**
      * @return true when declined events should be hidden.
      */
     public static boolean getHideDeclinedEvents(Context context) {

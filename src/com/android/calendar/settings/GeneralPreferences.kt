@@ -511,6 +511,7 @@ class GeneralPreferences : PreferenceFragmentCompat(),
         const val KEY_HIDE_DECLINED = "preferences_hide_declined"
         const val KEY_WEEK_START_DAY = "preferences_week_start_day"
         const val KEY_SHOW_WEEK_NUM = "preferences_show_week_num"
+        const val KEY_SWITCH_SHAMSI_CALENDAR = "preferences_switch_shamsi_calendar"
         const val KEY_DAYS_PER_WEEK = "preferences_days_per_week"
         const val KEY_MDAYS_PER_WEEK = "preferences_mdays_per_week"
         const val KEY_CLEAR_SEARCH_HISTORY = "preferences_clear_search_history"
@@ -553,6 +554,7 @@ class GeneralPreferences : PreferenceFragmentCompat(),
         const val DEFAULT_START_VIEW = CalendarController.ViewType.WEEK
         const val DEFAULT_DETAILED_VIEW = CalendarController.ViewType.DAY
         const val DEFAULT_SHOW_WEEK_NUM = false
+        const val DEFAULT_SWITCH_SHAMSI_CALENDAR = false
         // This should match the XML file.
         const val DEFAULT_RINGTONE = "content://settings/system/notification_sound"
         // The name of the shared preferences file. This name must be maintained for historical
