@@ -53,9 +53,11 @@
     </queries>
 
     <application android:name="com.android.calendar.CalendarApplication"
+        xmlns:tools="http://schemas.android.com/tools"
         android:requestLegacyExternalStorage="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
+        tools:replace="android:label"
         android:label="@string/standalone_app_label"
         android:taskAffinity="ws.xsoh.etar.task"
         android:requiredAccountType="*"
