@@ -12,6 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Formatter;
 import java.util.Locale;
 
+import saman.zamani.persiandate.PersianDate;
+import saman.zamani.persiandate.PersianDateFormat;
+
 import ws.xsoh.etar.R;
 
 /**
@@ -31,6 +34,7 @@ public class CalendarToolbarHandler {
     private String mTimeZone;
     private long mTodayJulianDay;
     private Handler mMidnightHandler = null; // Used to run a time update every midnight
+    private Boolean mSwitchHijriToGregorian;
 
     private final Runnable mTimeUpdater = new Runnable() {
         @Override
@@ -78,6 +82,9 @@ public class CalendarToolbarHandler {
     }
 
     private void updateTitle() {
+//        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
+        mSwitchHijriToGregorian =true;
+
         switch (mCurrentViewType) {
             case CalendarController.ViewType.DAY:
                 mToolbar.setSubtitle(buildDayOfWeek());
@@ -124,27 +131,41 @@ public class CalendarToolbarHandler {
         t.set(mMilliTime);
         long julianDay = Time.getJulianDay(mMilliTime, t.gmtoff);
         String dayOfWeek;
+        String dayOfWeekDateUtilsFormat = null;
         mStringBuilder.setLength(0);
-
-        if (julianDay == mTodayJulianDay) {
-            dayOfWeek = mContext.getString(R.string.agenda_today,
-                    DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                            DateUtils.FORMAT_SHOW_WEEKDAY, mTimeZone).toString());
-        } else if (julianDay == mTodayJulianDay - 1) {
-            dayOfWeek = mContext.getString(R.string.agenda_yesterday,
-                    DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                            DateUtils.FORMAT_SHOW_WEEKDAY, mTimeZone).toString());
-        } else if (julianDay == mTodayJulianDay + 1) {
-            dayOfWeek = mContext.getString(R.string.agenda_tomorrow,
-                    DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                            DateUtils.FORMAT_SHOW_WEEKDAY, mTimeZone).toString());
-        } else {
-            dayOfWeek = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
+        if (!mSwitchHijriToGregorian) {
+            dayOfWeekDateUtilsFormat = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
                     DateUtils.FORMAT_SHOW_WEEKDAY, mTimeZone).toString();
+        } else {
+            dayOfWeekDateUtilsFormat=buildDayOfWeekShamsi(mMilliTime);
+        }
+        if (julianDay == mTodayJulianDay) {
+            dayOfWeek = mContext.getString(R.string.agenda_today, dayOfWeekDateUtilsFormat);
+        } else if (julianDay == mTodayJulianDay - 1) {
+            dayOfWeek = mContext.getString(R.string.agenda_yesterday, dayOfWeekDateUtilsFormat);
+        } else if (julianDay == mTodayJulianDay + 1) {
+            dayOfWeek = mContext.getString(R.string.agenda_tomorrow, dayOfWeekDateUtilsFormat);
+        } else {
+            dayOfWeek = dayOfWeekDateUtilsFormat;
         }
         return dayOfWeek;
     }
 
+    /**
+     * @return convert MilliTime to day of persian date
+     */
+    private String buildDayOfWeekShamsi(Long shamsiMilliTime) {
+        return new PersianDate(shamsiMilliTime).dayName();
+    }
+    /**
+     * @return convert MilliTime to day of persian date format
+     */
+    private String buildFullDateShamsi(Long shamsiMilliTime) {
+        PersianDateFormat pdformater = new PersianDateFormat("Y F j", PersianDateFormat.PersianDateNumberCharacter.FARSI);
+        String date = pdformater.format(new PersianDate(shamsiMilliTime));
+        return date;
+
+    }
     // Builds strings with different formats:
     // Full date: Month,day Year
     // Month year
@@ -153,8 +174,14 @@ public class CalendarToolbarHandler {
     // Week:  month day-day or month day - month day
     private String buildFullDate() {
         mStringBuilder.setLength(0);
-        String date = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR, mTimeZone).toString();
+        String date;
+        if (!mSwitchHijriToGregorian) {
+
+            date = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
+                    DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR, mTimeZone).toString();
+        } else {
+            date = buildFullDateShamsi(mMilliTime);
+        }
         return date;
     }
 
