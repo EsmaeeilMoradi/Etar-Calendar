@@ -17,12 +17,23 @@
 package com.android.calendar;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.android.calendar.persian.LocaleHelper;
 import com.android.calendar.settings.GeneralPreferences;
 import com.android.calendar.settings.ViewDetailsPreferences;
 
 public class CalendarApplication extends Application {
+
+    /**
+     * Change the default language of the application to Persian (independent of the operating system)
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base, "fa"));
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
