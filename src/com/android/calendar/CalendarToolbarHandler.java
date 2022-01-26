@@ -1,11 +1,15 @@
 package com.android.calendar;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -133,6 +137,11 @@ public class CalendarToolbarHandler {
         String dayOfWeek;
         String dayOfWeekDateUtilsFormat = null;
         mStringBuilder.setLength(0);
+
+        /**
+         * change toolbar format to persian format
+         */
+        Formatter mFormatter = getPersianFormatter();
         if (!mSwitchHijriToGregorian) {
             dayOfWeekDateUtilsFormat = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
                     DateUtils.FORMAT_SHOW_WEEKDAY, mTimeZone).toString();
@@ -256,5 +265,21 @@ public class CalendarToolbarHandler {
     private String buildWeekNum() {
         int week = Utils.getWeekNumberFromTime(mMilliTime, mContext);
         return mContext.getResources().getQuantityString(R.plurals.weekN, week, week);
+    }
+    /**
+     *
+     * @return Formatter Persian format to set in toolbar
+     */
+    @NonNull
+    private Formatter getPersianFormatter() {
+        Formatter mFormatter = new Formatter(mStringBuilder, Locale.getDefault());
+        Resources res = mContext.getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale("fa","IR")); // API 17+ only.
+        // Use conf.locale = new Locale(...) if targeting lower versions
+        res.updateConfiguration(conf, dm);
+        return mFormatter;
     }
 }
