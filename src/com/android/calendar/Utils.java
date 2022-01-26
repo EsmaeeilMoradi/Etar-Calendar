@@ -81,6 +81,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import saman.zamani.persiandate.PersianDate;
 import ws.xsoh.etar.BuildConfig;
 import ws.xsoh.etar.R;
 
@@ -1685,8 +1686,23 @@ public class Utils {
         now.setToNow();
         now.normalize(false);
         today.setDayOfMonth(now.monthDay);
+        //setTodayIcon day of month(persian)
+        if (Utils.getSwitchHijriShamsi(c)) {
+            int s = buildDayOfMonthShamsi(System.currentTimeMillis());
+            today.setDayOfMonth(s);
+        }else {
+        //setTodayIcon day of month (timezone)
+            today.setDayOfMonth(now.monthDay);
+        }
         icon.mutate();
         icon.setDrawableByLayerId(R.id.today_icon_day, today);
+    }
+
+    /**
+     * @return convert System.currentTimeMillis to day of persian months
+     */
+    private static int buildDayOfMonthShamsi(Long shamsiMilliTime) {
+        return new PersianDate(shamsiMilliTime).getShDay();
     }
 
     public static BroadcastReceiver setTimeChangesReceiver(Context c, Runnable callback) {
