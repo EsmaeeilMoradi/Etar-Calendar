@@ -52,7 +52,7 @@
             app:defaultValue="false"
             app:title="@string/preferences_show_week_num_title" />
         <SwitchPreference
-            app:key="preferences_switch_hijriـshamsi"
+            app:key="preferences_switch_shamsi_calendar"
             app:defaultValue="false"
             app:title="@string/preferences_switch_hijriـshamsi_title" />
         <ListPreference

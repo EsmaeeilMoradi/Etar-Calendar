@@ -86,8 +86,7 @@ public class CalendarToolbarHandler {
     }
 
     private void updateTitle() {
-//        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
-        mSwitchHijriToGregorian =true;
+        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
 
         switch (mCurrentViewType) {
             case CalendarController.ViewType.DAY:
