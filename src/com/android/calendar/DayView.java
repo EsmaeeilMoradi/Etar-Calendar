@@ -89,6 +89,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import saman.zamani.persiandate.PersianDate;
 import ws.xsoh.etar.R;
 
 /**
@@ -195,6 +196,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
     private int mEventsAlpha = 255;
     private ObjectAnimator mEventsCrossFadeAnimation;
 
+    private Boolean mSwitchHijriToGregorian; // Define boolean ckeck shamsi calendar
     protected static StringBuilder mStringBuilder = new StringBuilder(50);
     // TODO recreate formatter when locale changes
     protected static Formatter mFormatter = new Formatter(mStringBuilder, Locale.getDefault());
@@ -1207,9 +1209,16 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
         final long start = mBaseDate.toMillis(false /* use isDst */);
         mFirstJulianDay = Time.getJulianDay(start, mBaseDate.gmtoff);
         mLastJulianDay = mFirstJulianDay + mNumDays - 1;
-
-        mMonthLength = mBaseDate.getActualMaximum(Time.MONTH_DAY);
-        mFirstVisibleDate = mBaseDate.monthDay;
+        //initialize mSwitchHijriToGregorian
+        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
+        //check mSwitchHijriToGregorian & convert mMonthLength & mFirstVisibleDate to persian date
+        if (!mSwitchHijriToGregorian) {
+            mMonthLength = mBaseDate.getActualMaximum(Time.MONTH_DAY);
+            mFirstVisibleDate = mBaseDate.monthDay;
+        } else {
+            mMonthLength = new PersianDate(mBaseDate.toMillis(true)).getMonthDays();
+            mFirstVisibleDate = new PersianDate( mBaseDate.toMillis(false)).getShDay();
+        }
         mFirstVisibleDayOfWeek = mBaseDate.weekDay;
     }
 
