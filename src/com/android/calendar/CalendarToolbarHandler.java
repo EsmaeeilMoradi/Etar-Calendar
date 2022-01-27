@@ -1,5 +1,6 @@
 package com.android.calendar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -202,7 +203,22 @@ public class CalendarToolbarHandler {
                 mMilliTime,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY
                         | DateUtils.FORMAT_SHOW_YEAR, mTimeZone).toString();
+        //set MonthYearDate in toolbar
+        if (!mSwitchHijriToGregorian) {
+            date = date;
+        } else {
+            // Add Month_YearDate(Persian)  in toolbar
+            date = buildMonthYearDateShamsi() + " - " + date;
+        }
         return date;
+    }
+
+    /**
+     * @return convert mMilliTime to month name and shamsi year by PersianDate
+     */
+    @SuppressLint("DefaultLocale")
+    private String buildMonthYearDateShamsi() {
+        return new PersianDate(mMilliTime).monthName() + (String.format("%d", new PersianDate(mMilliTime).getShYear()));
     }
 
     private String buildMonthDayDate() {
