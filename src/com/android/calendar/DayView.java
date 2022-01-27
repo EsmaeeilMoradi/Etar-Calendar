@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.ContentResolver;
@@ -2553,6 +2554,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
         p.setAntiAlias(true);
     }
 
+    @SuppressLint("DefaultLocale")
     private void drawDayHeader(String dayStr, int day, int cell, Canvas canvas, Paint p) {
         int dateNum = mFirstVisibleDate + day;
         int x;
@@ -2564,7 +2566,13 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
 
         int todayIndex = mTodayJulianDay - mFirstJulianDay;
         // Draw day of the month
-        String dateNumStr = String.valueOf(dateNum);
+        String dateNumStr;
+        if (!mSwitchHijriToGregorian) {
+            dateNumStr = String.valueOf(dateNum);
+            //convert day of the month to DefaultLocale(Persian format)
+        } else {
+            dateNumStr = String.format("%d", dateNum);
+        }
         if (mNumDays > 1) {
             float y = -1;
             if (LunarUtils.showLunar(mContext)) {
