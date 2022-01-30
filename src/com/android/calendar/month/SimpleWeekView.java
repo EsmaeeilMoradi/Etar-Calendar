@@ -293,10 +293,18 @@ public class SimpleWeekView extends View {
                 mFirstMonth = time.month;
             }
             mOddMonth [i] = (time.month %2) == 1;
-            if (time.month == focusMonth) {
-                mFocusDay[i] = true;
-            } else {
-                mFocusDay[i] = false;
+            if (!mSwitchHijriToGregorian) {
+                if (time.month == focusMonth) {
+                    mFocusDay[i] = true;
+                } else {
+                    mFocusDay[i] = false;
+                }
+            }else {
+                if ((new PersianDate(time.toMillis(true)).getShMonth()) == focusMonth) {
+                    mFocusDay[i] = true;
+                } else {
+                    mFocusDay[i] = false;
+                }
             }
             if (time.year == today.year && time.yearDay == today.yearDay) {
                 mHasToday = true;
@@ -308,9 +316,9 @@ public class SimpleWeekView extends View {
                 mDayNumbers[i] = NumberFormat.getInstance().format(time.monthDay++);
             } else {
                 //initialize  mDayNumbers[i] by shDay from PersianDate
-                time.monthDay++;
                 int shDay = new PersianDate(time.toMillis(true)).getShDay();
                 mDayNumbers[i] = NumberFormat.getInstance().format(shDay);
+                time.monthDay++;
             }
 
             time.normalize(true);

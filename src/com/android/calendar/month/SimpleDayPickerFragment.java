@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
+import saman.zamani.persiandate.PersianDate;
 import ws.xsoh.etar.R;
 
 /**
@@ -113,6 +114,8 @@ public class SimpleDayPickerFragment extends ListFragment implements OnScrollLis
     protected int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     // used for tracking what state listview is in
     protected int mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE;
+    // Define boolean ckeck shamsi calendar
+    private Boolean mSwitchHijriToGregorian;
 
     // This causes an update of the view at midnight
     protected Runnable mTodayUpdater = new Runnable() {
@@ -555,7 +558,15 @@ public class SimpleDayPickerFragment extends ListFragment implements OnScrollLis
         if (!TextUtils.equals(oldMonth, mMonthName.getText())) {
             mMonthName.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
         }
-        mCurrentMonthDisplayed = time.month;
+        //initialize mSwitchHijriToGregorian
+        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
+        if (!mSwitchHijriToGregorian) {
+            //initialize  mCurrentMonthDisplayed by time.month(default)
+            mCurrentMonthDisplayed = time.month;
+        } else {
+            //initialize  mCurrentMonthDisplayed by PersianDate
+            mCurrentMonthDisplayed = new PersianDate(time.toMillis(true)).getShMonth();
+        }
         if (updateHighlight) {
             mAdapter.updateFocusMonth(mCurrentMonthDisplayed);
         }
