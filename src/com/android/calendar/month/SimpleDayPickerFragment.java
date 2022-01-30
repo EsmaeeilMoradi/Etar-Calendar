@@ -434,7 +434,15 @@ public class SimpleDayPickerFragment extends ListFragment implements OnScrollLis
         // and if so scroll to the month that contains it
         if (position < firstPosition || position > lastPosition || forceScroll) {
             mFirstDayOfMonth.set(mTempTime);
-            mFirstDayOfMonth.monthDay = 1;
+            //initialize mSwitchHijriToGregorian
+            mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(mContext);
+            if (!mSwitchHijriToGregorian) {
+                //initialize  mFirstDayOfMonth.monthDay (default)
+                mFirstDayOfMonth.monthDay = 1;
+            } else {
+                //initialize  mFirstDayOfMonth.monthDay by PersianDate
+                mFirstDayOfMonth.monthDay = new PersianDate(mFirstDayOfMonth.toMillis(true)).setShDay(1).getGrgDay();
+            }
             millis = mFirstDayOfMonth.normalize(true);
             setMonthDisplayed(mFirstDayOfMonth, true);
             position = Utils.getWeeksSinceEpochFromJulianDay(
