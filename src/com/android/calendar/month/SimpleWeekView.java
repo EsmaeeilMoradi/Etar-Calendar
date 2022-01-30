@@ -39,6 +39,7 @@ import java.security.InvalidParameterException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
+import saman.zamani.persiandate.PersianDate;
 import ws.xsoh.etar.R;
 
 /**
@@ -168,8 +169,11 @@ public class SimpleWeekView extends View {
     protected int mWeekNumColor;
     Time mLastHoverTime = null;
 
+    private Boolean mSwitchHijriToGregorian; // Define boolean ckeck shamsi calendar
     public SimpleWeekView(Context context) {
         super(context);
+        //initialize mSwitchHijriToGregorian
+        mSwitchHijriToGregorian = Utils.getSwitchHijriShamsi(context);
 
         Resources res = context.getResources();
         mBGColor = DynamicTheme.getColor(context, "month_bgcolor");
@@ -298,7 +302,17 @@ public class SimpleWeekView extends View {
                 mHasToday = true;
                 mToday = i;
             }
-            mDayNumbers[i] = NumberFormat.getInstance().format(time.monthDay++);
+            //check mSwitchHijriToGregorian & initialize  mDayNumbers[i] by shDay from PersianDate
+            if (!mSwitchHijriToGregorian) {
+                //initialize  mDayNumbers[i] by time.monthDay++(default)
+                mDayNumbers[i] = NumberFormat.getInstance().format(time.monthDay++);
+            } else {
+                //initialize  mDayNumbers[i] by shDay from PersianDate
+                time.monthDay++;
+                int shDay = new PersianDate(time.toMillis(true)).getShDay();
+                mDayNumbers[i] = NumberFormat.getInstance().format(shDay);
+            }
+
             time.normalize(true);
         }
         // We do one extra add at the end of the loop, if that pushed us to a
