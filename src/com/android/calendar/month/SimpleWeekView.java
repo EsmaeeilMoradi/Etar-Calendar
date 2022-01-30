@@ -300,6 +300,10 @@ public class SimpleWeekView extends View {
                     mFocusDay[i] = false;
                 }
             }else {
+                //check toMillis method when return -1===>add one hour to time
+                if (time.toMillis(true)==-1){
+                    time.set(time.second,time.minute,time.hour+1,time.monthDay,time.month,time.year);
+                }
                 if ((new PersianDate(time.toMillis(true)).getShMonth()) == focusMonth) {
                     mFocusDay[i] = true;
                 } else {
@@ -316,6 +320,10 @@ public class SimpleWeekView extends View {
                 mDayNumbers[i] = NumberFormat.getInstance().format(time.monthDay++);
             } else {
                 //initialize  mDayNumbers[i] by shDay from PersianDate
+                //check toMillis method when return -1===>add one hour to time
+                if (time.toMillis(true)==-1){
+                    time.set(time.second,time.minute,time.hour+1,time.monthDay,time.month,time.year);
+                }
                 int shDay = new PersianDate(time.toMillis(true)).getShDay();
                 mDayNumbers[i] = NumberFormat.getInstance().format(shDay);
                 time.monthDay++;

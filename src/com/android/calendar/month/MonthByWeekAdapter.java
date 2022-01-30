@@ -341,6 +341,10 @@ public class MonthByWeekAdapter extends SimpleWeeksAdapter {
         day.minute = currTime.minute;
         day.allDay = false;
         day.normalize(true);
+        //check toMillis method when return -1===>add one hour to time
+        if (day.toMillis(true)==-1){
+            day.set(day.second,day.minute,day.hour+1,day.monthDay,day.month,day.year);
+        }
     }
 
     @Override
